@@ -1,6 +1,10 @@
 module Lib
-    ( someFunc
-    ) where
+  ( someFunc
+  ) where
+
+import qualified Data.Text    as T
+import qualified Data.Text.IO as TIO
+import           RIO
 
 someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+someFunc = runSimpleApp $ logInfo "someFunc"
