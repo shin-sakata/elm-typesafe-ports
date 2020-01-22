@@ -1,0 +1,13 @@
+{
+  "name": "elm-typesafe-ports",
+  "version": "1.0.0",
+  "description": "Type-Safe ports for Elm-TypeScript",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shintaro Sakata",
+  "license": "MIT"
+}
