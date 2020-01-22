@@ -1,3 +1,4 @@
 .stack-work/
 elm-typesafe-ports.cabal
 *~
+.idea/
