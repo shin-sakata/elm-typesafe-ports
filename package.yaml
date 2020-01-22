@@ -64,7 +64,7 @@ dependencies:
 - base >= 4.7 && < 5
 - rio
 - text
-
+- parsec
 
 library:
   source-dirs: src
