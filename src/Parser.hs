@@ -2,11 +2,7 @@ module Parser
   ( parser
   ) where
 
-import           Control.Applicative       hiding (many)
-import           Control.Monad             (mapM)
-import           Data.Char
-import           Data.List.Split
-import           Data.Maybe                (catMaybes)
+import           Control.Applicative       (empty)
 import           Data.Text                 (pack)
 import           Filesystem                (isFile)
 import           Filesystem.Path.CurrentOS (fromText)
@@ -20,8 +16,8 @@ import           Text.Parsec.Text          (Parser, parseFromFile)
 parser :: FilePath -> IO ()
 parser entryPoint = do
   allImportModules <- importsPaths [] entryPoint
-  allPortsModules <- mapM portModule $ nubOrd allImportModules
-  print $ catMaybes allPortsModules
+  allPortsModules <- catMaybes <$> mapM portModule (nubOrd allImportModules)
+  print allPortsModules
 
 importsPaths :: [FilePath] -> FilePath -> IO [FilePath]
 importsPaths state path = do
@@ -32,8 +28,7 @@ importsPaths state path = do
       let paths = map (mod2Path path) imps
        in do impss <- mapM (importsPaths state) paths
              return $ state ++ paths ++ concat impss
-    else do
-      return state
+    else return state
 
 mod2Path :: FilePath -> String -> FilePath
 mod2Path entryPoint mod =
