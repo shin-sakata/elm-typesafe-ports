@@ -4,9 +4,8 @@ import           Control.Applicative       (empty)
 import           Data.Text                 (pack)
 import           Filesystem                (isFile)
 import           Filesystem.Path.CurrentOS (fromText)
-import           Helper                    (ident, searchString)
+import           Helper                    (ident, searchString, mod2Path)
 import           RIO                       hiding (many, try)
-import           RIO.FilePath              (takeDirectory, (</>))
 import qualified RIO.List                  as L
 import           Text.Parsec               hiding ((<|>))
 import           Text.Parsec.Text          (Parser, parseFromFile)
@@ -21,17 +20,6 @@ importsPaths state path = do
        in do impss <- mapM (importsPaths state) paths
              return $ state ++ paths ++ concat impss
     else return state
-
-mod2Path :: FilePath -> String -> FilePath
-mod2Path entryPoint mod =
-  takeDirectory entryPoint </>
-  map
-    (\c ->
-       if c == '.'
-         then '/'
-         else c)
-    mod ++
-  ".elm"
 
 impParser :: Parser String
 impParser = try (searchImport >> spaces >> ident) <|> (eof >> empty)

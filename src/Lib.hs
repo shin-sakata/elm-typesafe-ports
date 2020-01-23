@@ -1,5 +1,5 @@
 module Lib
-  ( someFunc
+  ( libMain
   ) where
 
 import qualified Data.Text    as T
@@ -7,10 +7,10 @@ import qualified Data.Text.IO as TIO
 import           RIO
 import Parser (parser)
 
-someFunc :: IO ()
-someFunc =
+libMain :: IO ()
+libMain =
   runSimpleApp $ do
-    liftIO $ parser entryPoint
+    parser entryPoint
 
 entryPoint :: FilePath
 entryPoint = "/Users/shintaro.sakata/projects/hc/hc-hataractive/app/ModernJs/seamless/src/Main.elm"
