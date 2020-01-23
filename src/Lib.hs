@@ -15,5 +15,3 @@ someFunc =
 entryPoint :: FilePath
 entryPoint = "/Users/shintaro.sakata/projects/hc/hc-hataractive/app/ModernJs/seamless/src/Main.elm"
 
-ioFile :: FilePath -> IO T.Text
-ioFile = TIO.readFile

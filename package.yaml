@@ -65,6 +65,9 @@ dependencies:
 - rio
 - text
 - parsec
+- split
+- system-fileio
+- system-filepath
 
 library:
   source-dirs: src
