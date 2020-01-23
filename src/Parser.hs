@@ -5,78 +5,50 @@ module Parser
 import           Control.Applicative hiding (many)
 import           Data.Char
 import qualified Prelude             as P
-import           RIO                 hiding (try, many)
+import           RIO                 hiding (many, try)
+import           RIO.FilePath        as FP
+import qualified RIO.List            as L
 import           Text.Parsec         hiding ((<|>))
-import           Text.Parsec.Text
-import Text.Parsec.Combinator
-import Text.Parsec.Language
+import           Text.Parsec.Text    (Parser, parseFromFile)
 
-data Stmt
-  = Import String
-  | Module String
-  | Other
-  deriving (Show)
+parser :: FilePath -> IO ()
+parser entryPoint = do
+  p <- portModule entryPoint
+  i <- imports entryPoint
+  P.print i
+  P.print p
 
-parser :: IO ()
-parser = do
-  P.putStrLn "start"
-  parseTest (many importParser) "import Alert"
+imports :: FilePath -> IO [String]
+imports filePath = do
+  Right imps <- parseFromFile (many impParser) filePath
+  return imps
 
-importParser :: Parser Stmt
-importParser = do
-  imp <- string "import" >> spaces >> tok
-  return $ Import imp
+portModule :: FilePath -> IO (Maybe String)
+portModule filePath = do
+  Right mods <- parseFromFile (many modParser) filePath
+  return $ L.headMaybe mods
 
-tok :: Parser String
-tok = do
-  many1 (alphaNum <|> char '_'<|> char '.')
+impParser :: Parser String
+impParser = try (searchImport >> spaces >> ident) <|> (eof >> empty)
 
+modParser :: Parser String
+modParser =
+  try (searchPortModule >> spaces >> ident <* (spaces >> string "exposing" >> spaces >> char '(')) <|> (eof >> empty)
 
-keyword :: String -> Parser String
-keyword keyword = spaces *> string keyword <* spaces
+searchImport :: Parser String
+searchImport = searchString "import"
 
+searchPortModule :: Parser String
+searchPortModule = searchString "port module"
 
---data Expr
---  = Value Double
---  | Plus Expr Expr
---  | Minus Expr Expr
---  | Times Expr Expr
---  | Divide Expr Expr
---  deriving (Show)
---
---digitToDouble :: Char -> Double
---digitToDouble = fromIntegral . digitToInt
---
---symbol xs = do
---  result <- string xs
---  spaces
---  return result
---
---num = do
---  xs <- many $ digitToDouble <$> digit
---  dot <- optionMaybe (char '.')
---  ys <- many $ digitToDouble <$> digit
---  spaces
---  return $ Value $ foldl f 0 xs + foldl g 0 ys
---  where
---    f x y = x * 10 + y
---    g x y = x + y * 0.1
---
---parens = do
---  symbol "("
---  result <- expr
---  symbol ")"
---  return result
---
---term = try parens <|> num
---
---op0 = (Times <$ symbol "*") <|> (Divide <$ symbol "/")
---
---op1 = (Plus <$ symbol "+") <|> (Minus <$ symbol "-")
---
---expr = do
---  spaces
---  term `chainl1` op0 `chainl1` op1
---
---subMain = print $ parse expr "" ("1.2+2.0-3" :: String)
--- Right (Minus (Plus (Value 1.2) (Value 2.0)) (Value 3.0))
+searchString :: String -> Parser String
+searchString str = search $ string str
+
+ident :: Parser String
+ident = many1 (alphaNum <|> char '.' <|> char '_')
+
+search :: Parser a -> Parser a
+search expr =
+  try expr <|> do
+    anyChar
+    search expr
