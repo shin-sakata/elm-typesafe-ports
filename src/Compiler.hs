@@ -20,25 +20,33 @@ buildInterface :: Text -> prototype -> Text
 buildInterface name prototype =
   interface <-> name <~
       "ports: Ports;"
-  ~> mempty
+  ~> empty
 
 buildNameSpace :: Text -> Text -> Text
 buildNameSpace name content =
   namespace <-> name <~
     content
-  ~> mempty
+  ~> empty
 
+
+-- RBrace
 (~>) :: Text -> Text -> Text
 (~>) content text = content <> "}" <> text
 
+
+-- LBrace & Indent content
 (<~) :: Text -> Text -> Text
 (<~) text content =
-  text <> " {" <--> content
+  text <> " {" <> newLine <--> content
 
+
+-- Indent content
 (<-->) :: Text -> Text -> Text
 (<-->) text content =
   text <> offsideTrap content
 
+
+-- "l_text" <-> "r_text" = "l_text r_text"
 (<->) :: Text -> Text -> Text
 (<->) l r =
   l <> whiteSpace <> r
@@ -46,8 +54,7 @@ buildNameSpace name content =
 
 offsideTrap :: Text -> Text
 offsideTrap content =
-  newLine
-  <> concatLines (map (\line -> whiteSpaces indentSize <> line) (T.lines content))
+  concatLines (map (\line -> whiteSpaces indentSize <> line) (T.lines content))
 
 concatLines :: [Text] -> Text
 concatLines lines = T.concat $ map (<> newLine) lines
@@ -65,3 +72,6 @@ whiteSpace = " "
 namespace = "namespace"
 
 interface = "interface"
+
+empty :: Text
+empty = mempty
