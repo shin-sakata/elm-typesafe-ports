@@ -1,5 +1,6 @@
 module Ports
   ( allPorts
+  , Port
   ) where
 
 import           Control.Applicative       (empty)
