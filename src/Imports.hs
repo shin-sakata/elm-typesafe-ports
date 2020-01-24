@@ -11,11 +11,13 @@ import           RIO                       hiding (many, try)
 import qualified RIO.List                  as L
 import           Text.Parsec               hiding ((<|>))
 import           Text.Parsec.Text          (Parser, parseFromFile)
+import Logger (debugList)
 
 allImportModules :: FilePath -> RIO SimpleApp [FilePath]
 allImportModules entryPoint = do
-  mods <- liftIO $ importsPaths [] entryPoint
-  return $ nubOrd mods
+  mods <- liftIO $ nubOrd <$> importsPaths [] entryPoint
+  debugList mods
+  return mods
 
 importsPaths :: [FilePath] -> FilePath -> IO [FilePath]
 importsPaths state path = do

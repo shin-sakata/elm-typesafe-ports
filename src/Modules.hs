@@ -9,11 +9,14 @@ import           RIO                       hiding (many, try)
 import qualified RIO.List                  as L
 import           Text.Parsec               hiding ((<|>))
 import           Text.Parsec.Text          (Parser, parseFromFile)
+import Logger (debugList)
 
 
 filterPortModule :: [FilePath] -> RIO SimpleApp [FilePath]
-filterPortModule paths = 
-  liftIO $ catMaybes <$> mapM portModule paths
+filterPortModule paths = do
+  ports <- liftIO $ catMaybes <$> mapM portModule paths
+  debugList ports
+  return ports
 
 portModule :: FilePath -> IO (Maybe String)
 portModule filePath = do

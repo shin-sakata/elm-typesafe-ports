@@ -8,6 +8,7 @@ import           Filesystem                (isFile)
 import           Filesystem.Path.CurrentOS (fromText)
 import           Helper                    (ident, mod2Path, search,
                                             searchString)
+import           Logger                    (debugList)
 import           Prelude                   (print)
 import           RIO                       hiding (many, try)
 import           RIO.FilePath              ((</>))
@@ -20,12 +21,15 @@ data Port =
     { name :: String
     , args :: [String]
     }
-  
+
 instance Show Port where
   show (Port name args) = "\nport " ++ name ++ " : (" ++ show args ++ ") -> Cmd msg"
 
 allPorts :: FilePath -> [FilePath] -> RIO SimpleApp [Port]
-allPorts entryPoint modPaths = liftIO $ join <$> mapM (parseMod2Ports entryPoint) modPaths
+allPorts entryPoint modPaths = do
+  ports <- liftIO $ join <$> mapM (parseMod2Ports entryPoint) modPaths
+  debugList ports
+  return ports
 
 parseMod2Ports :: FilePath -> String -> IO [Port]
 parseMod2Ports dir mod = parsePorts (mod2Path dir mod)
