@@ -1,4 +1,4 @@
-module Modules (portModule) where
+module Modules (filterPortModule) where
 
 import           Control.Applicative       (empty)
 import           Data.Text                 (pack)
@@ -9,6 +9,11 @@ import           RIO                       hiding (many, try)
 import qualified RIO.List                  as L
 import           Text.Parsec               hiding ((<|>))
 import           Text.Parsec.Text          (Parser, parseFromFile)
+
+
+filterPortModule :: [FilePath] -> RIO SimpleApp [FilePath]
+filterPortModule paths = 
+  liftIO $ catMaybes <$> mapM portModule paths
 
 portModule :: FilePath -> IO (Maybe String)
 portModule filePath = do

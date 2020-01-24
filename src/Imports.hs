@@ -1,14 +1,21 @@
-module Imports (importsPaths) where
+module Imports
+  ( allImportModules
+  ) where
 
 import           Control.Applicative       (empty)
 import           Data.Text                 (pack)
 import           Filesystem                (isFile)
 import           Filesystem.Path.CurrentOS (fromText)
-import           Helper                    (ident, searchString, mod2Path)
+import           Helper                    (ident, mod2Path, searchString)
 import           RIO                       hiding (many, try)
 import qualified RIO.List                  as L
 import           Text.Parsec               hiding ((<|>))
 import           Text.Parsec.Text          (Parser, parseFromFile)
+
+allImportModules :: FilePath -> RIO SimpleApp [FilePath]
+allImportModules entryPoint = do
+  mods <- liftIO $ importsPaths [] entryPoint
+  return $ nubOrd mods
 
 importsPaths :: [FilePath] -> FilePath -> IO [FilePath]
 importsPaths state path = do

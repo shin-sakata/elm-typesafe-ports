@@ -1,4 +1,6 @@
-module Ports where
+module Ports
+  ( allPorts
+  ) where
 
 import           Control.Applicative       (empty)
 import           Data.Text                 (pack)
@@ -20,7 +22,10 @@ data Port =
     }
   
 instance Show Port where
-  show (Port name args) = "port " ++ name ++ " " ++ show args ++ "\n"
+  show (Port name args) = "\nport " ++ name ++ " : (" ++ show args ++ ") -> Cmd msg"
+
+allPorts :: FilePath -> [FilePath] -> RIO SimpleApp [Port]
+allPorts entryPoint modPaths = liftIO $ join <$> mapM (parseMod2Ports entryPoint) modPaths
 
 parseMod2Ports :: FilePath -> String -> IO [Port]
 parseMod2Ports dir mod = parsePorts (mod2Path dir mod)
