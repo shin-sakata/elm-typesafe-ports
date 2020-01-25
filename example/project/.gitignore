@@ -1,0 +1,5 @@
+.cache
+dist/index.js
+dist/index.map
+elm-stuff
+node_modules
