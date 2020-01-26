@@ -1,10 +1,10 @@
 name:                elm-typesafe-ports
 version:             0.1.0.0
 github:              "Github username here/elm-typesafe-ports"
-license:             BSD3
-author:              "Author name here"
-maintainer:          "Author email here"
-copyright:           "2019 Author name here"
+license:             MIT
+author:              "Shintaro Sakata"
+maintainer:          "Shintaro sakata"
+copyright:           "2020 Shintaro Sakata"
 
 extra-source-files:
 - README.md
