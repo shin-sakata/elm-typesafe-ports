@@ -73,7 +73,9 @@ genElmType "()"     = Void_
 genElmType _        = Any_
 
 argsParser :: Parser [String]
-argsParser = many (try (string "String") <|> string "()")
+argsParser =
+  many
+    (try (string "String") <|> try (string "Bool") <|> try (string "Int") <|> try (string "Float") <|> try (string "()"))
 
 searchPortName :: Parser String
 searchPortName =

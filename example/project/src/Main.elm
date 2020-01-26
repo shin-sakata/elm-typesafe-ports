@@ -4,6 +4,7 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Ports exposing (..)
 
 
 port alertString : String -> Cmd msg
@@ -29,14 +30,22 @@ init flags =
 
 
 type Msg
-    = Alert String
+    = AlertString String
+    | AlertInt Int
+    | AlertBool Bool
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Alert str ->
+        AlertString str ->
             ( model, alertString str )
+
+        AlertInt int ->
+            ( model, alertInt int )
+
+        AlertBool bool ->
+            ( model, alertBool bool )
 
 
 subscriptions : Model -> Sub Msg
@@ -47,4 +56,7 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div []
-        [ button [ onClick <| Alert "alert string" ] [ text "alert string" ] ]
+        [ button [ onClick <| AlertString "string" ] [ text "alert string" ]
+        , button [ onClick <| AlertInt 114514 ] [ text "alert 114514" ]
+        , button [ onClick <| AlertBool True ] [ text "alert true" ]
+        ]
