@@ -1,16 +1,17 @@
-module Modules (filterPortModule) where
+module Modules
+  ( filterPortModule
+  ) where
 
 import           Control.Applicative       (empty)
-import           Data.Text                 (pack)
 import           Filesystem                (isFile)
 import           Filesystem.Path.CurrentOS (fromText)
 import           Helper                    (ident, searchString)
+import           Logger                    (debugList)
 import           RIO                       hiding (many, try)
 import qualified RIO.List                  as L
+import           RIO.Text                  (pack)
 import           Text.Parsec               hiding ((<|>))
 import           Text.Parsec.Text          (Parser, parseFromFile)
-import Logger (debugList)
-
 
 filterPortModule :: [FilePath] -> RIO SimpleApp [FilePath]
 filterPortModule paths = do

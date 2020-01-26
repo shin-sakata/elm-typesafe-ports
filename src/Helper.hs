@@ -5,7 +5,7 @@ module Helper
   , mod2Path
   ) where
 
-import           RIO              hiding (many, try)
+import           RIO              hiding (try)
 import           RIO.FilePath     (takeDirectory, (</>))
 import           Text.Parsec      hiding ((<|>))
 import           Text.Parsec.Text (Parser)

@@ -2,11 +2,9 @@ module Lib
   ( libMain
   ) where
 
-import qualified Data.Text    as T
-import qualified Data.Text.IO as TIO
+import           Compiler     (compile)
+import           Parser       (parser)
 import           RIO
-import Parser (parser)
-import Compiler (compile)
 
 libMain :: IO ()
 libMain =

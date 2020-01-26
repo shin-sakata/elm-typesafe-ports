@@ -5,19 +5,15 @@ module Ports
   , ElmType(..)
   ) where
 
-import           Control.Applicative       (empty)
-import           Data.Text                 (pack, unpack)
-import           Filesystem                (isFile)
-import           Filesystem.Path.CurrentOS (fromText)
-import           Helper                    (ident, mod2Path, search,
-                                            searchString)
-import           Logger                    (debugList)
-import           Prelude                   (print)
-import           RIO                       hiding (many, try)
-import           RIO.FilePath              ((</>))
-import qualified RIO.List                  as L
-import           Text.Parsec               hiding ((<|>))
-import           Text.Parsec.Text          (Parser, parseFromFile)
+import           Control.Applicative (empty)
+import           Helper              (ident, mod2Path, search, searchString)
+import           Logger              (debugList)
+import           RIO                 hiding (many, try)
+import           RIO.FilePath        ((</>))
+import qualified RIO.List            as L
+import           RIO.Text            (pack, unpack)
+import           Text.Parsec         hiding ((<|>))
+import           Text.Parsec.Text    (Parser, parseFromFile)
 
 data Port =
   Port
@@ -36,7 +32,7 @@ data ElmType
   | Float_
   | Void_
   | Any_
-  deriving Show
+  deriving (Show)
 
 instance Show Port where
   show (Port name args) = show $ "port " <> name <> pack " : (" <> pack (show args) <> ") -> Cmd msg"

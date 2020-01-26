@@ -4,7 +4,6 @@ import           Ports (Port(..), Args(..), ElmType(..))
 import           RIO
 import           RIO.List.Partial (head)
 import qualified RIO.Text as T
-import Prelude (print)
 
 compile :: [Port] -> FilePath -> RIO SimpleApp ()
 compile ports entryPoint =
@@ -48,12 +47,14 @@ typeCompatible elmType =
 export :: Text -> Text
 export content =
   "export" <-> content <> newLine
+  
 
 buildInterface :: Text -> Text -> Text
 buildInterface name prototype =
   interface <-> name <~
       prototype
   ~> empty
+  
 
 buildNameSpace :: Text -> Text -> Text
 buildNameSpace name content =

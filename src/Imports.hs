@@ -3,15 +3,14 @@ module Imports
   ) where
 
 import           Control.Applicative       (empty)
-import           Data.Text                 (pack)
+import           RIO.Text                  (pack)
 import           Filesystem                (isFile)
 import           Filesystem.Path.CurrentOS (fromText)
 import           Helper                    (ident, mod2Path, searchString)
 import           RIO                       hiding (many, try)
-import qualified RIO.List                  as L
 import           Text.Parsec               hiding ((<|>))
 import           Text.Parsec.Text          (Parser, parseFromFile)
-import Logger (debugList)
+import           Logger                    (debugList)
 
 allImportModules :: FilePath -> RIO SimpleApp [FilePath]
 allImportModules entryPoint = do
