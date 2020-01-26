@@ -1,5 +1,5 @@
 .cache
 dist/index.js
-dist/index.map
+dist/index.js.map
 elm-stuff
 node_modules

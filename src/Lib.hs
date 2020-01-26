@@ -13,5 +13,4 @@ libMain =
     parser entryPoint
 
 entryPoint :: FilePath
-entryPoint = "/Users/shintaro.sakata/projects/hc/hc-hataractive/app/ModernJs/seamless/src/Main.elm"
-
+entryPoint = "example/project/src/Main.elm"
