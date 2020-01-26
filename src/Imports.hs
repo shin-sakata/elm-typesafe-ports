@@ -16,8 +16,8 @@ import Logger (debugList)
 allImportModules :: FilePath -> RIO SimpleApp [FilePath]
 allImportModules entryPoint = do
   mods <- liftIO $ nubOrd <$> importsPaths [] entryPoint
-  debugList mods
-  return mods
+  debugList "import modules" $ entryPoint : mods
+  return $ entryPoint : mods
 
 importsPaths :: [FilePath] -> FilePath -> IO [FilePath]
 importsPaths state path = do

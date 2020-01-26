@@ -15,7 +15,7 @@ import Logger (debugList)
 filterPortModule :: [FilePath] -> RIO SimpleApp [FilePath]
 filterPortModule paths = do
   ports <- liftIO $ catMaybes <$> mapM portModule paths
-  debugList ports
+  debugList "port module" ports
   return ports
 
 portModule :: FilePath -> IO (Maybe String)

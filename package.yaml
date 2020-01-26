@@ -59,6 +59,8 @@ default-extensions:
   - TypeFamilies
   - TypeSynonymInstances
   - ViewPatterns
+  - Strict
+  - StrictData
 
 dependencies:
 - base >= 4.7 && < 5

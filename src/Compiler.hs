@@ -1,25 +1,58 @@
 module Compiler where
 
-import           Ports (Port)
+import           Ports (Port(..), Args(..), ElmType(..))
 import           RIO
+import           RIO.List.Partial (head)
 import qualified RIO.Text as T
 import Prelude (print)
 
-compile :: [Port] -> RIO SimpleApp ()
-compile ports =
-  liftIO $ writeFileUtf8 "./sample.d.ts"
-    $ export $ buildNameSpace "Elm"
-      $ buildNameSpace "Main"
-        $ buildInterface "App" ""
+compile :: [Port] -> FilePath -> RIO SimpleApp ()
+compile ports entryPoint =
+  liftIO $ writeFileUtf8 (entryPoint <> ".d.ts")
+    $ template ports
+
+template :: [Port] -> Text
+template ports =
+  export $
+  buildNameSpace "Elm" $
+    buildNameSpace "Main" $
+      buildInterface "App" "ports: Ports;" <==
+      buildInterface "Args" ("node: HTMLElement;" <> newLine <> "flags: any;") <==
+      buildInterface "Ports" (compilePorts ports) <==
+      buildInterface "Subscribe<T>" "subscribe(callback: (value: T) => any): void;" <==
+      buildInterface "Send<T>" "send(value: T): void;" <==
+      "function init(args: Args): App;"
+
+compilePorts :: [Port] -> Text
+compilePorts []           = ""
+compilePorts (port:ports) = compilePort port <> newLine <> compilePorts ports
+
+compilePort :: Port -> Text
+compilePort port =
+  name port <> ": Subscribe<" <> compileArgs (args port) <> ">"
+  
+compileArgs :: Args -> Text
+compileArgs (Args args) = typeCompatible (head args)
+
+typeCompatible :: ElmType -> Text
+typeCompatible elmType =
+  case elmType of
+    Bool_    -> "boolean"
+    Int_     -> "number"
+    Float_   -> "number"
+    String_  -> "string"
+    Any_     -> "any"
+
+
 
 export :: Text -> Text
 export content =
-  "export" <-> content
+  "export" <-> content <> newLine
 
-buildInterface :: Text -> prototype -> Text
+buildInterface :: Text -> Text -> Text
 buildInterface name prototype =
   interface <-> name <~
-      "ports: Ports;"
+      prototype
   ~> empty
 
 buildNameSpace :: Text -> Text -> Text
@@ -39,6 +72,8 @@ buildNameSpace name content =
 (<~) text content =
   text <> " {" <> newLine <--> content
 
+(<==) :: Text -> Text -> Text
+(<==) l r = l <> newLine <> newLine <> r
 
 -- Indent content
 (<-->) :: Text -> Text -> Text

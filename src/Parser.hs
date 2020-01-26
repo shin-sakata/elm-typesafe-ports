@@ -4,15 +4,12 @@ module Parser
 
 import           Imports (allImportModules)
 import           Modules (filterPortModule)
-import           Ports   (allPorts)
+import           Ports   (allPorts, Port)
 import           Prelude (print)
-import           Compiler (compile)
 import           RIO
 
-parser :: FilePath -> RIO SimpleApp ()
+parser :: FilePath -> RIO SimpleApp [Port]
 parser entryPoint = do
   allImportModules <- allImportModules entryPoint
   allPortsModules <- filterPortModule allImportModules
-  ports <- allPorts entryPoint allPortsModules
-  compile ports
-  return ()
+  allPorts entryPoint allPortsModules
