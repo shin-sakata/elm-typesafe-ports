@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Ports exposing (..)
+import SubDir.Ports2 exposing (..)
 
 
 port alertString : String -> Cmd msg
