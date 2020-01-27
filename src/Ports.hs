@@ -72,10 +72,16 @@ genElmType "Float"  = Float_
 genElmType "()"     = Void_
 genElmType _        = Any_
 
+
 argsParser :: Parser [String]
-argsParser =
-  many
-    (try (string "String") <|> try (string "Bool") <|> try (string "Int") <|> try (string "Float") <|> try (string "()"))
+argsParser = many $ choice
+  [ string "String"
+  , string "Bool"
+  , string "Int"
+  , string "Float"
+  , string "()"
+  ]
+
 
 searchPortName :: Parser String
 searchPortName =
