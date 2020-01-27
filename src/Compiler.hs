@@ -38,6 +38,7 @@ typeCompatible elmType =
     Int_    -> "number"
     Float_  -> "number"
     String_ -> "string"
+    Void_   -> "void"
     Any_    -> "any"
 
 export :: Text -> Text
