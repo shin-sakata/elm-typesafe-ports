@@ -20,3 +20,7 @@ app.ports.alertBool.subscribe(function (bool: boolean) {
 app.ports.alertFloat.subscribe(function (float: number) {
     alert(float);
 });
+
+app.ports.alertVoid.subscribe(function () {
+    alert("void!");
+})

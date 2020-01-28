@@ -3,7 +3,7 @@ port module Main exposing (main)
 import Browser
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
-import Ports exposing (alertInt)
+import Ports exposing (alertInt, alertVoid)
 import SubDir.Ports2 exposing (alertBool)
 import SubDir.Ports3 exposing (alertFloat)
 
@@ -35,6 +35,7 @@ type Msg
     | AlertInt Int
     | AlertBool Bool
     | AlertFloat Float
+    | AlertVoid
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -52,6 +53,9 @@ update msg model =
         AlertFloat float ->
             ( model, alertFloat float )
 
+        AlertVoid ->
+            ( model, alertVoid () )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
@@ -65,4 +69,5 @@ view _ =
         , button [ onClick <| AlertInt 114514 ] [ text "alert 114514" ]
         , button [ onClick <| AlertBool True ] [ text "alert true" ]
         , button [ onClick <| AlertFloat 114.514 ] [ text "alert 114.514" ]
+        , button [ onClick <| AlertVoid ] [ text "alert void" ]
         ]
