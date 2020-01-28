@@ -16,3 +16,7 @@ app.ports.alertInt.subscribe(function (int: number) {
 app.ports.alertBool.subscribe(function (bool: boolean) {
     alert(bool);
 });
+
+app.ports.alertFloat.subscribe(function (float: number) {
+    alert(float);
+});

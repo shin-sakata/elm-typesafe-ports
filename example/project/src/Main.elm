@@ -1,11 +1,11 @@
 port module Main exposing (main)
 
 import Browser
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import Ports exposing (..)
-import SubDir.Ports2 exposing (..)
+import Html exposing (Html, button, div, text)
+import Html.Events exposing (onClick)
+import Ports exposing (alertInt)
+import SubDir.Ports2 exposing (alertBool)
+import SubDir.Ports3 exposing (alertFloat)
 
 
 port alertString : String -> Cmd msg
@@ -34,6 +34,7 @@ type Msg
     = AlertString String
     | AlertInt Int
     | AlertBool Bool
+    | AlertFloat Float
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -48,16 +49,20 @@ update msg model =
         AlertBool bool ->
             ( model, alertBool bool )
 
+        AlertFloat float ->
+            ( model, alertFloat float )
+
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 
 view : Model -> Html Msg
-view model =
+view _ =
     div []
         [ button [ onClick <| AlertString "string" ] [ text "alert string" ]
         , button [ onClick <| AlertInt 114514 ] [ text "alert 114514" ]
         , button [ onClick <| AlertBool True ] [ text "alert true" ]
+        , button [ onClick <| AlertFloat 114.514 ] [ text "alert 114.514" ]
         ]
