@@ -82,6 +82,7 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     - -Wall
+    - -O2
     dependencies:
     - elm-typesafe-ports
 
