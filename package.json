@@ -15,6 +15,6 @@
     "url": "git+https://github.com/chemirea/elm-typesafe-ports.git"
   },
   "bin": {
-    "elm-typesafe-ports": ".stack-work/dist/x86_64-osx/Cabal-2.4.0.1/build/elm-typesafe-ports-exe/elm-typesafe-ports-exe"
+    "elm-typesafe-ports": "bin/elm-typesafe-ports-exe"
   }
 }
