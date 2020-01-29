@@ -12,7 +12,9 @@ export namespace Elm {
         interface Ports {
             alertString: Subscribe<string>
             alertInt: Subscribe<number>
+            alertVoid: Subscribe<void>
             alertBool: Subscribe<boolean>
+            alertFloat: Subscribe<number>
         }
         
         interface Subscribe<T> {
