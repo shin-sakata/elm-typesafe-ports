@@ -20,7 +20,6 @@ extra-source-files:
 description:         Please see the README on GitHub at <https://github.com/Github username here/elm-typesafe-ports#readme>
 
 default-extensions:
-  - AutoDeriveTypeable
   - BangPatterns
   - BinaryLiterals
   - ConstraintKinds
@@ -42,7 +41,6 @@ default-extensions:
   - InstanceSigs
   - KindSignatures
   - LambdaCase
-  - MonadFailDesugaring
   - MultiParamTypeClasses
   - MultiWayIf
   - NamedFieldPuns
